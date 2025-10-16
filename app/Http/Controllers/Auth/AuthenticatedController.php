@@ -4,22 +4,32 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-class AuthenticatedSessionController extends Controller
+class AuthenticatedController extends Controller
 {
     /**
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): Response
     {
-        $request->authenticate();
 
-        $request->session()->regenerate();
+        $user = User::where('phone', $request->phone)->first();
 
-        return response()->noContent();
+         $code = random_int(100000, 999999);
+
+
+
+
+//
+//        $request->authenticate();
+//
+//        $request->session()->regenerate();
+//
+//        return response()->noContent();
     }
 
     /**

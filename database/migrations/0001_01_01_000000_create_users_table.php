@@ -17,10 +17,12 @@ return new class extends Migration
 //            $table->string('last_name');
             $table->string('phone')->unique();
             $table->timestamp('phone_verified_at')->nullable();
-            $table->string('password');
+//            $table->string('password');
          //   $table->rememberToken();
             $table->timestamps();
         });
+
+
 
 
         Schema::create('user_profiles', function (Blueprint $table) {

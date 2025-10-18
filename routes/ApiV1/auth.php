@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedController;
-use App\Http\Controllers\Auth\OtpController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Api\v1\Auth\AuthenticatedController;
+use App\Http\Controllers\Api\v1\Auth\OtpController;
+use App\Http\Controllers\Api\v1\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisteredUserController::class, 'store'])

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedController;
+use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
@@ -15,6 +17,10 @@ Route::post('/login', [AuthenticatedController::class, 'store'])
 Route::post('/logout', [AuthenticatedController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+
+Route::post('/otp-verify' , [OtpController::class, 'verif'])->name('otp.verify');
+
+
 
 //Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
 //    ->middleware('guest')

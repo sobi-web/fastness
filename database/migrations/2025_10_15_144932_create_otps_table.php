@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('phone');
             $table->string('code');
+            $table->smallInteger('type')->default(1);
             $table->smallInteger('status')->default(1);
             $table->timestamps();
         });

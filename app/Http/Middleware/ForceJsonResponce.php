@@ -13,8 +13,24 @@ class ForceJsonResponce
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        // اجباری کردن اینکه درخواست همیشه JSON قبول کند
+        $request->headers->set('Accept', 'application/json');
+
+        $response = $next($request);
+
+        // اگر پاسخ از نوع JSON نیست (مثلاً HTML یا redirect)
+        if (!$response->headers->has('Content-Type') ||
+            !str_contains($response->headers->get('Content-Type'), 'application/json')) {
+
+            // تبدیل به JSON ساختاریافته
+            $response = response()->json([
+                'message' => $response->getOriginalContent() ?? 'Non‑JSON response converted',
+                'status_code' => $response->getStatusCode(),
+            ], $response->getStatusCode());
+        }
+
+        return $response;
     }
 }

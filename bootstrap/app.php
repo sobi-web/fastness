@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ForceJsonResponce;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,8 +21,15 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         ]);
 
+        $middleware->alias([
+            'json' => ForceJsonResponce::class,
+        ]);
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
+
+
+
+

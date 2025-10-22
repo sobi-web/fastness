@@ -44,4 +44,9 @@ class User extends Authenticatable
             'phone_verified_at' => 'datetime',
         ];
     }
+
+    public static function findByPhone(string $phone)
+    {
+        return User::where('phone', $phone)->first();
+    }
 }

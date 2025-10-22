@@ -1,5 +1,8 @@
 <?php
 
 return [
-  'api_key' => env('KAVENEGAR_API_KEY'),
+    'api_key' => env('KAVENEGAR_API_KEY'),
+    'templates' => [
+        'login' => 'VerifyLogin'
+    ]
 ];

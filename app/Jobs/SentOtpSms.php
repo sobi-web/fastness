@@ -24,6 +24,7 @@ class SentOtpSms implements ShouldQueue
      */
     public function handle(): void
     {
+
         Log::info("📨 [Job] شروع ارسال OTP به {$this->phone}");
          (new SmsService($this->phone))->sendOTP($this->otpCode);
     }

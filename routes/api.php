@@ -12,12 +12,8 @@ Route::prefix('v1')->middleware('json')->group(function () {
 
 
 
-    Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-        return $request->user();
-    });
 
-
-    Route::prefix('auth')->group(base_path('routes/ApiV1/auth.php'));
+    Route::prefix('auth')->group(base_path('routes/ApiV1/auth.php'))->middleware('guest');
 
 
 });

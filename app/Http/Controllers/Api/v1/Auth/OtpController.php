@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1\Auth;
 use App\Http\Controllers\BaseApiController;
 use App\Http\Requests\Api\V1\Auth\OtpSendRequest;
 use App\Services\OtpService;
+use Carbon\Carbon;
 
 class OtpController extends BaseApiController
 {
@@ -29,22 +30,23 @@ class OtpController extends BaseApiController
 
         $otp = $this->otpService->sendTo($phone, $ip, $userAgent);
 
+        $expiresAt = Carbon::parse($otp->expires_at);
+        $diffInMinutes = now()->diffInSeconds($expiresAt);
+        $minutes = floor($diffInMinutes / 60);
+        $seconds = $diffInMinutes % 60;
+
+
+
 
         return $this->apiResponse(true, 'کد ارسال شد.', [
             'flow_token' => $otp->flow_token,
-            'expires_at' => $otp->expires_at,
+            'expires_at' => "کد  تا {$minutes} دقیقه و {$seconds} ثانیه دیگر منقضی می‌شود.",
         ] , '200' , 'auth/otp/verify');
 
 
     }
 
 
-    public function verify(OtpRequest $request, OtpService $otpService)
-    {
-
-
-
-    }
 
 
 

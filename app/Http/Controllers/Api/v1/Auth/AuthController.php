@@ -29,18 +29,22 @@ class AuthController extends BaseApiController
             $user = Userservice::findOrCreateByPhone($otp->phone);
 
             // صدور توکن Sanctum
-            $token = $user->createToken('fastness_api')->plainTextToken;
+            $create_token = $user->createToken( "{$otp->phone}". 'fastness_api_token');
+            $token = $create_token->plainTextToken;
 
             $otp->setAsVerified();
 
             return $this->apiResponse(
-                true,
+                200,
                 'ورود شما با موفقیت انجام شد ',
                 [
                     'token' => $token,
                     'user' => $user,
+                    'ProfileCompleted' => $user->isProfileCompleted(),
                 ]
-                , '200', '/dashboard');
+            );
+
+
 
         }catch (InvalidOtpCodeException $e) {
             throw ValidationException::withMessages([
@@ -60,7 +64,7 @@ class AuthController extends BaseApiController
 
 
         return $this->apiResponse(
-            true,
+            200,
             'با موفقیت از حساب کاربری خود خارج شده اید'
         );
 

@@ -52,6 +52,18 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this-> hasOne('App\Models\Profile' , 'user_id' , 'id');
+        return $this->hasOne(UserProfile::class , 'user_id' , 'id');
     }
+
+    public function isProfileCompleted(): bool
+    {
+        $profile = $this->profile;
+        return $profile
+            && $profile->full_name
+            && $profile->job_title
+            && $profile->gender
+            && $profile->birth_date;
+    }
+
+
 }

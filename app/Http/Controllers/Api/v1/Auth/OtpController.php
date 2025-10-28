@@ -24,7 +24,7 @@ class OtpController extends BaseApiController
 
 
         if ($this->otpService->tooManyRequests($phone)) {
-            return $this->apiResponse(false, 'تعداد درخواست‌های ارسال کد زیاد است. لطفا پس از چند دقیقه دوباره تلاش کنید.');
+            return $this->apiResponse(201, 'تعداد درخواست‌های ارسال کد زیاد است. لطفا پس از چند دقیقه دوباره تلاش کنید.');
 
         }
 
@@ -38,10 +38,10 @@ class OtpController extends BaseApiController
 
 
 
-        return $this->apiResponse(true, 'کد ارسال شد.', [
+        return $this->apiResponse(200, 'کد ارسال شد.', [
             'flow_token' => $otp->flow_token,
             'expires_at' => "کد  تا {$minutes} دقیقه و {$seconds} ثانیه دیگر منقضی می‌شود.",
-        ] , '200' , 'auth/otp/verify');
+        ]);
 
 
     }

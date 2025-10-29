@@ -12,10 +12,8 @@ Route::prefix('v1')->group(function () {
     // مسیرهایی که نیاز به لاگین ندارند:
     Route::prefix('auth')->group(base_path('routes/ApiV1/auth.php'));
 
-//    Route::prefix('dashboard')->group(base_path('routes/ApiV1/dashbord.php'));
-    Route::get('dashboard/test', function (Request $request) {
-       return $request->user();
-    })->middleware('auth:sanctum');
+    Route::prefix('dashboard')->group(base_path('routes/ApiV1/dashboard.php'))->middleware(['auth:sanctum' , 'json']);
+
 
 
   });

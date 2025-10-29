@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1\Auth;
 use App\Exceptions\InvalidOtpCodeException;
 use App\Http\Controllers\BaseApiController;
 use App\Http\Requests\Api\V1\Auth\OtpVerifyRequest;
+use App\Http\Resources\Api\V1\UserResource;
 use App\Services\OtpService;
 use App\Services\Userservice;
 use Illuminate\Http\Request;
@@ -34,12 +35,14 @@ class AuthController extends BaseApiController
 
             $otp->setAsVerified();
 
+            $created_user = UserResource::make($user);
+
             return $this->apiResponse(
                 200,
                 'ورود شما با موفقیت انجام شد ',
                 [
                     'token' => $token,
-                    'user' => $user,
+                    'user' => $created_user,
                     'ProfileCompleted' => $user->isProfileCompleted(),
                 ]
             );

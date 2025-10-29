@@ -4,24 +4,20 @@ namespace App\Http\Requests\Api\V1\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProfileRequset extends FormRequest
+class ProfileUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
 
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+
     public function rules(): array
     {
         return [
-            'full_name' => ['required', 'string' , 'max:255' , 'min:5'],
-            'birth_date' =>     ['required', 'date'],
-            'gender' =>     ['required', 'string' ],
+            'full_name' => [ 'string' , 'max:255' , 'min:5'],
+            'birth_date' =>     [ 'date'],
+            'gender' =>     [ 'string' ],
             'job_title' =>  ['string' , 'nullable'] ,
             'avatar_url' => ['nullable', 'string' , 'url'],
             'bio' => ['nullable', 'string' , 'min:15'],
@@ -49,5 +45,13 @@ class ProfileRequset extends FormRequest
             'bio.min' => __('ProfileRequest.bio.min'),
 
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new \Illuminate\Validation\ValidationException($validator, response()->json([
+            'message' => 'Validation failed',
+            'errors'  => $validator->errors(),
+        ], 422));
     }
 }

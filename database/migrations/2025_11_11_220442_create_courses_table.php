@@ -14,13 +14,11 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('category_id')
-                ->nullable()
-                ->constrained('course_categories')
-                ->nullOnDelete();  // اگر دسته حذف شد، دسته‌ی دوره حذف نمی‌شود
+
 
             $table->string('name');
             $table->string('slug')->unique();
+            $table->decimal('price')->nullable();
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
 

@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Courses;
 
+use App\Models\Courses\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,13 @@ class CourseMediaFactory extends Factory
      */
     public function definition(): array
     {
+        $types = ['image', 'video', 'voice'];
+
         return [
-            //
+            'course_id' => Course::factory(),
+            'type' => $this->faker->randomElement($types),
+            'path' => 'uploads/courses/' . $this->faker->uuid . '.jpg',
+            'name' => $this->faker->sentence(),
         ];
     }
 }

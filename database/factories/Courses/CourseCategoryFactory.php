@@ -17,7 +17,18 @@ class CourseCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->unique()->words(2, true),
+            'slug' => $this->faker->unique()->slug(),
+            'description' => $this->faker->sentence(10),
+            'parent_id' => null, // در صورت نیاز بعداً می‌تونیم setParent کنیم
         ];
+    }
+
+    // برای ساخت زیرمجموعه در صورت نیاز
+    public function withParent($parentId)
+    {
+        return $this->state([
+            'parent_id' => $parentId,
+        ]);
     }
 }

@@ -25,6 +25,26 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
+
+
+        Schema::create('course_category_course', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('course_id')
+                ->constrained('courses')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->foreignId('course_category_id')
+                ->constrained('course_categories')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->timestamps();
+
+            // ✅ جلوگیری از ثبت تکراری
+            $table->unique(['course_id', 'course_category_id']);
+        });
     }
 
     /**
@@ -33,5 +53,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('course_categories');
+        Schema::dropIfExists('course_category_course');
     }
 };

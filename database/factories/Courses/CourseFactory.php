@@ -17,7 +17,10 @@ class CourseFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->unique()->sentence(3),
+            'slug' => $this->faker->unique()->slug(),
+            'description' => $this->faker->paragraph(5),
+            'price' => $this->faker->randomFloat(2, 0, 2000000), // قیمت بین ۰ تا ۲میلیون تومان
         ];
     }
 }

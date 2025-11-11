@@ -23,8 +23,8 @@ class ProfileCreateRequest extends FormRequest
             'birth_date' =>     ['required', 'date'],
             'gender' =>     ['required', 'string' ],
             'job_title' =>  ['string' , 'nullable'] ,
-            'avatar_url' => ['nullable', 'string' , 'url'],
             'bio' => ['nullable', 'string' , 'min:15'],
+
 
 
         ];

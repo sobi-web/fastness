@@ -2,7 +2,7 @@
 
 namespace App\Rules\Api\V1;
 
-use App\Models\Otp;
+use App\Models\Users\Otp;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;

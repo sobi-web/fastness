@@ -4,6 +4,7 @@ namespace App\Models\Courses;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CourseCategory extends Model
 {
@@ -33,7 +34,7 @@ class CourseCategory extends Model
     }
 
     // 🧠 دوره‌های این دسته
-    public function courses()
+    public function courses() : BelongsToMany
     {
         return $this->belongsToMany(
             Course::class,

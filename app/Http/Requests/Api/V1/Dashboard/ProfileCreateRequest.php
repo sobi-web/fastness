@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\V1\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class ProfileCreateRequest extends FormRequest
 {
@@ -24,7 +25,12 @@ class ProfileCreateRequest extends FormRequest
             'gender' =>     ['required', 'string' ],
             'job_title' =>  ['string' , 'nullable'] ,
             'bio' => ['nullable', 'string' , 'min:15'],
-
+            'avatar_url'  => [
+                'nullable',
+                File::image()
+                    ->types(['jpeg', 'jpg', 'png', 'webp'])
+                    ->max(3 * 1024) // ۲ مگابایت
+            ],
 
 
         ];
@@ -43,8 +49,12 @@ class ProfileCreateRequest extends FormRequest
             'job_title.required' => __('ProfileRequest.job_title.required'),
             'job_title.min' => __('ProfileRequest.job_title.min'),
             'job_title.max' => __('ProfileRequest.job_title.max'),
-            'avatar_url.nullable' => __('ProfileRequest.avatar_url.nullable'),
-            'avatar_url.url' => __('ProfileRequest.avatar_url.url'),
+
+            'avatar_url.image'      => 'فایل انتخاب‌شده باید از نوع تصویر باشد.',
+            'avatar_url.mimes'      => 'فرمت تصویر باید یکی از انواع jpeg، jpg، png، یا webp باشد.',
+            'avatar_url.max'        => 'حجم تصویر نباید بیشتر از ۲ مگابایت باشد.',
+
+
             'bio.required' => __('ProfileRequest.bio.required'),
             'bio.min' => __('ProfileRequest.bio.min'),
 

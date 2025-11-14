@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\v1\Auth;
 use App\Exceptions\InvalidOtpCodeException;
 use App\Http\Controllers\BaseApiController;
 use App\Http\Requests\Api\V1\Auth\OtpVerifyRequest;
-use App\Http\Resources\Api\V1\UserResource;
+use App\Http\Resources\Api\V1\Dashboards\UserResource;
 use App\Services\OtpService;
 use App\Services\Userservice;
 use Illuminate\Http\Request;

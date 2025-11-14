@@ -21,8 +21,8 @@ class ForceJsonResponce
         $response = $next($request);
 
         // اگر پاسخ از نوع JSON نیست (مثلاً HTML یا redirect)
-        if (!$response->headers->has('Content-Type') ||
-            !str_contains($response->headers->get('Content-Type'), 'application/json')) {
+        if (!$response->headers->has('Accept') ||
+            !str_contains($response->headers->get('Accept'), 'application/json')) {
 
             // تبدیل به JSON ساختاریافته
             $response = response()->json([

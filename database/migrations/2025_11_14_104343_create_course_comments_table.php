@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('course_id')->constrained()->cascadeOnDelete();
             $table->text('body')->nullable();
             $table->unsignedTinyInteger('rating')->nullable()->comment('1–5');
+            $table->smallInteger('status')->default(1);
             $table->timestamps();
 
             $table->unique(['user_id', 'course_id']);

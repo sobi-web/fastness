@@ -53,7 +53,7 @@ class Course extends Model
         return $this->where('is_active', CourseStatus::ACTIVE)->get();
     }
 
-    public function comments() : BelongsTo
+    public function comments() : HasMany
     {
         return $this->hasMany(CourseComment::class);
     }

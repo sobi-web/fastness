@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Api\V1;
 
 enum Otpstatus: int
 {

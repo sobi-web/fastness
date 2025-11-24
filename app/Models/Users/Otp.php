@@ -2,7 +2,7 @@
 
 namespace App\Models\Users;
 
-use App\Enums\Otpstatus;
+use App\Enums\Api\V1\Otpstatus;
 use Illuminate\Database\Eloquent\Model;
 
 class Otp extends Model

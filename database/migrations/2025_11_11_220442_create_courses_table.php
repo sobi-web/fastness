@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->decimal('price')->nullable();
             $table->text('description')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->smallInteger('status')->default(1);
 
             // برای ثبت ادمینی که دوره را ساخته
             $table->unsignedBigInteger('created_by')->nullable();

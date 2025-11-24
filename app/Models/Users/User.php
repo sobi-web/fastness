@@ -3,7 +3,9 @@
 namespace App\Models\Users;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Courses\CourseComment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -12,7 +14,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\Users\UserFactory> */
     use HasFactory, Notifiable;
-    use  HasApiTokens ;
+    use  HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -20,13 +22,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-      'phone' ,
+        'phone',
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-//     * @var list<string>
+     * //     * @var list<string>
      */
 //    protected $hidden = [
 //        'password',
@@ -52,7 +54,7 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne(UserProfile::class , 'user_id' , 'id');
+        return $this->hasOne(UserProfile::class, 'user_id', 'id');
     }
 
     public function isProfileCompleted(): bool
@@ -63,6 +65,11 @@ class User extends Authenticatable
             && $profile->job_title
             && $profile->gender
             && $profile->birth_date;
+    }
+
+    public function comments() : HasMany
+    {
+        return $this->hasMany(CourseComment::class, 'user_id', 'id');
     }
 
 

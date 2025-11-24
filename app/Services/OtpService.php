@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Enums\Otpstatus;
+use App\Enums\Api\V1\Otpstatus;
 use App\Jobs\SentOtpSms;
 use App\Models\Users\Otp;
 use Carbon\Carbon;

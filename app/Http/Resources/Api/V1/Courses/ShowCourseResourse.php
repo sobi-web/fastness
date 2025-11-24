@@ -23,6 +23,10 @@ class ShowCourseResourse extends JsonResource
             'updated_at' =>$this->updated_at->diffForHumans() ,
             'media'  => CourseMediaResourse::collection($this->whenLoaded('media')),
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
+            'comments' => [
+                'count' => $this->comments_count,
+                'average_rating' => round($this->comments_avg_rating, 1),
+            ],
         ];
     }
 }

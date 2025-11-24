@@ -2,12 +2,15 @@
 
 namespace App\Models\Courses;
 
-use App\Enums\CourseStatus;
+use App\Enums\Api\V1\CourseStatus;
+use App\Models\Scopes\Courses\ActiveScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
+#[ScopedBy([ActiveScope::class])]
 
 class Course extends Model
 {
@@ -26,12 +29,7 @@ class Course extends Model
     // 📁 دسته دوره
     public function categories(): BelongsToMany
     {
-//        return $this->belongsToMany(
-//            CourseCategory::class,
-//            'course_category_course', // نام جدول pivot
-//            'course_id',              // کلید خارجی در pivot برای Course
-//            'course_category_id'      // کلید خارجی در pivot برای Category
-//        );
+
 
         return $this->belongsToMany(CourseCategory::class, 'course_category_course', 'course_id', 'course_category_id');
     }
@@ -48,14 +46,10 @@ class Course extends Model
         return $this->hasMany(CourseMedia::class);
     }
 
-    public function activeCourses()
-    {
-        return $this->where('is_active', CourseStatus::ACTIVE)->get();
-    }
 
     public function comments() : HasMany
     {
-        return $this->hasMany(CourseComment::class);
+        return $this->hasMany(CourseComment::class , 'course_id', 'id');
     }
 
 }

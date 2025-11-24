@@ -8,8 +8,10 @@ use App\Http\Requests\Api\V1\Auth\OtpVerifyRequest;
 use App\Http\Resources\Api\V1\Dashboards\UserResource;
 use App\Services\OtpService;
 use App\Services\Userservice;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class AuthController extends BaseApiController
 {
@@ -30,7 +32,7 @@ class AuthController extends BaseApiController
             $user = Userservice::findOrCreateByPhone($otp->phone);
 
             // صدور توکن Sanctum
-            $create_token = $user->createToken( "{$otp->phone}". 'fastness_api_token');
+            $create_token = $user->createToken("{$otp->phone}" . 'fastness_api_token');
             $token = $create_token->plainTextToken;
 
             $otp->setAsVerified();
@@ -48,28 +50,50 @@ class AuthController extends BaseApiController
             );
 
 
+        } catch (InvalidOtpCodeException $e) {
 
-        }catch (InvalidOtpCodeException $e) {
-            throw ValidationException::withMessages([
-               'otp' => $e->getMessage(),
+            throw new HttpResponseException(
+                $this->apiResponse(421, 'کد تایید اشتباه است.', [
+                    'error' => $e->getMessage(),
+                ])
+            );
+
+        } catch (Throwable $e) {
+            // هر خطای غیرمنتظره دیگر
+            \Log::error('Login Error: '.$e->getMessage());
+
+            return $this->apiResponse(500, 'خطای داخلی سرور', [
+                'error' => $e->getMessage()
             ]);
-
         }
 
 
     }
 
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
+
+        try {
 
 
-        $request->user()->currentAccessToken()->delete();
+            $request->user()->currentAccessToken()->delete();
 
 
-        return $this->apiResponse(
-            200,
-            'با موفقیت از حساب کاربری خود خارج شده اید'
-        );
+            return $this->apiResponse(
+                200,
+                'با موفقیت از حساب کاربری خود خارج شده اید'
+            );
+
+        }catch (Throwable $e) {
+
+            \Log::error('Logout Error: '.$e->getMessage());
+
+            // هر خطای غیرمنتظره دیگر
+            return $this->apiResponse(500, 'خطای داخلی سرور', [
+                'error' => $e->getMessage()
+            ]);
+        }
 
     }
 }

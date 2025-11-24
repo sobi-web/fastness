@@ -17,9 +17,8 @@ class BaseApiController extends Controller
     ): JsonResponse
     {
         return response()->json([
-            'message' => $message ?? '',
+            'message' => $message ?? null,
             'data' => $data ?? null,
-            'timestamp' => now(),
         ], $status);
     }
 }

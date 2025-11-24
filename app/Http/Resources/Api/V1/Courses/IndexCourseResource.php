@@ -14,14 +14,18 @@ class IndexCourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-       return [
-           'name' => $this->name ,
-           'slug' => $this->slug ,
-           'description' => $this->description ,
-           'price' => number_format($this->price ) . ' '. 'تومان',
-           'created_at' =>$this->created_at->diffForHumans() ,
-           'media'  => CourseMediaResourse::collection($this->whenLoaded('media')),
-           'categories' => CategoryResource::collection($this->whenLoaded('categories')),
-           ];
+        return [
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'description' => $this->description,
+            'price' => number_format($this->price) . ' ' . 'تومان',
+            'created_at' => $this->created_at->diffForHumans(),
+            'media' => CourseMediaResourse::collection($this->whenLoaded('media')),
+            'categories' => CategoryResource::collection($this->whenLoaded('categories')),
+            'comments' => [
+                'count' => $this->comments_count,
+                'average_rating' => round($this->comments_avg_rating, 1),
+            ],
+        ];
     }
 }

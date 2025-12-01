@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Throwable;
 
-class CommentController extends BaseApiController
+class CourseCommentController extends BaseApiController
 {
     public function index($slug, Course $course)
     {
@@ -65,7 +65,7 @@ class CommentController extends BaseApiController
                 'user_id' => $user_id,
                 'body' => $request->body,
                 'rating' => $request->rating,
-                'status' => 1 , 
+                'status' => 1 ,
             ]);
 
             // ساخت خروجی Resource

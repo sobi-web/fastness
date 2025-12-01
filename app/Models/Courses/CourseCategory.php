@@ -20,7 +20,10 @@ class CourseCategory extends Model
     ];
 
     /* ---------------- Relations ---------------- */
-
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
     // 🔁 دسته‌های فرزند
     public function children()
     {
@@ -28,9 +31,10 @@ class CourseCategory extends Model
     }
 
     // 🔁 دسته والد
-    public function parent()
+
+    public function childrenRecursive()
     {
-        return $this->belongsTo(self::class, 'parent_id');
+        return $this->children()->with('childrenRecursive');
     }
 
     // 🧠 دوره‌های این دسته

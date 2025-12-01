@@ -11,7 +11,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('dashboard')->group(base_path('routes/ApiV1/dashboard.php'))->middleware('auth:sanctum');
 
-    require base_path('routes/ApiV1/public.php');
+    require base_path('routes/ApiV1/course.php');
 
 
 });

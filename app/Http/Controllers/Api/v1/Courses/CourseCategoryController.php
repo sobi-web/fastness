@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\app\Http\Controllers\Api\v1\Courses;
+namespace App\Http\Controllers\Api\v1\Courses;
 
 use App\Http\Controllers\BaseApiController;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Courses\CategoryResource;
 use App\Http\Resources\Api\V1\Courses\IndexCourseResource;
 use App\Models\Courses\CourseCategory;
-use Illuminate\Http\Request;
 
 class CourseCategoryController extends BaseApiController
 {

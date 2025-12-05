@@ -1,9 +1,9 @@
 <?php
 
 
+use App\Http\Controllers\Api\v1\Courses\CourseCategoryController;
 use App\Http\Controllers\Api\v1\Courses\CourseCommentController;
 use App\Http\Controllers\Api\v1\Courses\CourseController;
-use App\Http\Controllers\app\Http\Controllers\Api\v1\Courses\CourseCategoryController;
 use Illuminate\Support\Facades\Route;
 
 

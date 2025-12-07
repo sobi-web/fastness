@@ -17,14 +17,10 @@ class CourseSeeder extends Seeder
     public function run(): void
     {
         // اطمینان از وجود حداقلی دسته‌بندی‌ها
-        if (CourseCategory::count() === 0) {
-            $this->command->warn('⚠️ هیچ دسته‌بندی‌ای وجود ندارد. ساخت چند دسته نمونه...');
-            CourseCategory::factory(5)->create();
-        }
+
 
         $categories = CourseCategory::all();
 
-        $this->command->info('🚀 شروع ساخت دوره‌ها همراه با فازها و رسانه‌ها...');
 
         // ساخت مثلاً ۱۰ دوره
         $courses = Course::factory(10)->create();
@@ -34,11 +30,6 @@ class CourseSeeder extends Seeder
             $course->categories()->attach(
                 $categories->random(rand(1, 3))->pluck('id')->toArray()
             );
-
-            // ساخت ۳ تا ۵ فاز برای هر دوره
-            Phase::factory(rand(3, 5))->create([
-                'course_id' => $course->id,
-            ]);
 
             // ساخت ۱ تا ۳ رسانه برای هر دوره
             CourseMedia::factory(rand(1, 3))->create([

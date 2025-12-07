@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Api\v1\Courses;
 
-use App\Http\Controllers\BaseApiController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Courses\indexCourseResource;
 use App\Http\Resources\Api\V1\Courses\ShowCourseResourse;
+use App\Http\Traits\Api\V1\ApiResponse;
 use App\Models\Courses\Course;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Throwable;
 
-class CourseController extends BaseApiController
+class CourseController extends Controller
 {
+    use ApiResponse;
 
     public function index(Course $course)
     {
@@ -29,18 +31,19 @@ class CourseController extends BaseApiController
                 ->get());;
 
 
-            return $this->apiResponse('200', 'لیست همه دوره ها', $courses);
+            return $this->successResponse($courses, 'لیست همه دوره ها');
+
         } catch (Throwable $e) {
 
-            \Log::error('CourseIndex Error: '.$e->getMessage());
+            \Log::error('CourseIndex Error: 500 ' . $e->getMessage());
 
             // اگر خطای غیرمنتظره پیش بیاد
-        return $this->apiResponse(500, 'خطای داخلی سرور', [
-            'error' => app()->environment('local')
-                ? $e->getMessage() // در حالت local پیام اصلی خطا رو نشون بده
-                : null
-        ]);
-    }
+            return $this->errorResponse([
+                app()->environment('local')
+                    ? $e->getMessage() // در حالت local پیام اصلی خطا رو نشون بده
+                    : null
+            ], 'خطای داخلی سرور', 500);
+        }
     }
 
 
@@ -56,20 +59,22 @@ class CourseController extends BaseApiController
                 ->first();
             $course = ShowCourseResourse::make($show);;
 
-            return $this->apiResponse('200', 'دوره مورد نظر شما با موفقیت دریافت شد', $course);
+            return $this->successResponse($course);
 
         } catch (ModelNotFoundException $e) {
 
             // وقتی دوره با slug پیدا نشد
-            return $this->apiResponse(404, 'دوره مورد نظر یافت نشد.');
+//            return $this->apiResponse(404, 'دوره مورد نظر یافت نشد.');
+            return $this->errorResponse($e->getMessage(), null ,  404);
 
         } catch (Throwable $e) {
-            \Log::error('CourseShow Error: '.$e->getMessage());
+            \Log::error('CourseShow Error: ' . $e->getMessage());
 
             // هر خطای غیرمنتظره دیگر
-            return $this->apiResponse(500, 'خطای داخلی سرور', [
-                'error' => $e->getMessage()
-            ]);
+//            return $this->apiResponse(500, 'خطای داخلی سرور', [
+//                'error' => $e->getMessage()
+//            ]);
+            return $this->errorResponse($e->getMessage(), 'خطای داخلی سرور' , 500);
         }
     }
 

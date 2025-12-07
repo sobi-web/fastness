@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api\v1\Courses;
 
-use App\Http\Controllers\BaseApiController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Courses\CategoryResource;
 use App\Http\Resources\Api\V1\Courses\IndexCourseResource;
+use App\Http\Traits\Api\V1\ApiResponse;
 use App\Models\Courses\CourseCategory;
 
-class CourseCategoryController extends BaseApiController
+class CourseCategoryController extends Controller
 {
-
+  use ApiResponse ;
     public function index(CourseCategory $category)
     {
         $categories = $category
@@ -18,7 +19,7 @@ class CourseCategoryController extends BaseApiController
             ->get();
         $resourse = CategoryResource::collection($categories);
 
-        return $this->apiResponse(200, 'دسته های اصلی با موفقیت دریافت شد', $resourse);
+        return $this->successResponse($resourse);
     }
 
     public function show(CourseCategory $coursecategory)
@@ -27,7 +28,7 @@ class CourseCategoryController extends BaseApiController
 
         $resourse = CategoryResource::make($categories);
 
-        return $this->apiResponse(200, '', $resourse);
+        return $this->successResponse($resourse);
 
     }
 
@@ -37,7 +38,7 @@ class CourseCategoryController extends BaseApiController
         $courses = $coursecategory->courses->load('comments',  'media' ,'categories');
 
         $resourse = IndexCourseResource::collection($courses);
-        return $this->apiResponse(200, 'دوره های دسته بندی مورد نظر با موفقیت دریافت شد', $resourse);
+        return $this->successResponse($resourse);
     }
 
 

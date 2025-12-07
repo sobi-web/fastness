@@ -2,6 +2,8 @@
 
 namespace Database\Factories\Users;
 
+use App\Models\Users\User;
+use GlassCode\PersianFaker\PersianFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,13 +18,14 @@ class UserProfileFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = PersianFaker::create();
         return [
-            'user_id' => UserFactory::create(1)->pluck('id'),
-            'full_name' => $this->faker->name(),
+            'user_id' => User::factory(),
+            'full_name' => $faker->person()->name() . ' ' . $faker->person()->lastName() ,  //علی
             'gender' => $this->faker->randomElement(['male', 'female']),
-            'birthday' => $this->faker->date(),
-            'job_title' => $this->faker->jobTitle(),
-            'bio' => $this->faker->text(200),
+            'birth_date' => verta($this->faker->date())->format('Y/m/d'),
+            'job_title' => $faker->person()->job(),
+            'bio' => $faker->text()->paragraph(),
         ];
     }
 }

@@ -2,9 +2,11 @@
 
 namespace Database\Factories\Courses;
 
+use App\Models\Courses\Course;
 use App\Models\Users\User;
 use Database\Factories\Users\UserFactory;
 use Database\Factories\Users\UserProfileFactory;
+use GlassCode\PersianFaker\PersianFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,12 +21,14 @@ class CourseCommentFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = PersianFaker::create();
+
         return [
-            'body' => $this->faker->text(200),
-             'user_id' => 1,
-            'course_id' => $this->faker->numberBetween(1, 10),
+            'body' => $faker->text()->paragraph(), // متن طولانی
+            'user_id' => User::factory(),
+            'course_id' => Course::factory(),
             'rating' => $this->faker->numberBetween(1, 5),
-            'status' => $this->faker->numberBetween(0, 1),
+            'status' => 2,
             'created_at' => $this->faker->dateTimeBetween('-1 years', 'now'),
         ];
     }

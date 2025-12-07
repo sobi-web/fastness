@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\Api\v1\Dashboard;
 
-use App\Http\Controllers\BaseApiController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Dashboard\ProfileCreateRequest;
 use App\Http\Requests\Api\V1\Dashboard\ProfileUpdateRequest;
 use App\Http\Resources\Api\V1\Dashboards\UserProfileResource;
 use App\Http\Resources\Api\V1\Dashboards\UserResource;
+use App\Http\Traits\Api\V1\ApiResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
-class ProfileController extends BaseApiController
+class ProfileController extends Controller
 {
+    use ApiResponse;
+
     public function store(ProfileCreateRequest $request)
     {
         try {
@@ -43,25 +46,28 @@ class ProfileController extends BaseApiController
 
             $profile = UserProfileResource::make($user->profile()->first());
 
-            return $this->apiResponse(200, 'success', [
-                'profile' => $profile,
-                'user' => UserResource::make($user),
-            ]);
+
+            return $this->successResponse(
+                [
+                    'profile' => $profile,
+                    'user' => UserResource::make($user)]
+            );
 
 
         } catch (ModelNotFoundException $e) {
             // رکورد پیدا نشد → 404
-            return $this->apiResponse(404, 'رکورد مورد نظر یافت نشد');
+            return $this->errorResponse($e->getMessage(), 'رکورد مورد نظر یافت نشد', 404);
 
         } catch (QueryException $e) {
             // خطاهای دیتابیس
             \Log::error('DB Error in ProfileController@store: ' . $e->getMessage());
-            return $this->apiResponse(500, 'خطایی در ذخیره پروفایل رخ داد');
+
+            return $this->errorResponse($e->getMessage(), 'Error', 500);
 
         } catch (Throwable $e) {
             // هر خطای غیرمنتظره
             \Log::error('Error in ProfileController@store: ' . $e->getMessage());
-            return $this->apiResponse(500, 'خطای داخلی سرور');
+            return $this->errorResponse($e->getMessage(), 'Error', 500);
         }
 
     }
@@ -99,24 +105,27 @@ class ProfileController extends BaseApiController
             $profile_create = $user->profile()->update($data);
             $profile_updated = UserProfileResource::make($user->profile()->first());
 
-            return $this->apiResponse(200, 'success', [
-                'profile' => $profile_updated,
-                'user' => UserResource::make($user),
-            ]);
+
+            return $this->successResponse(
+                [
+                    'profile' => $profile_updated,
+                    'user' => UserResource::make($user),
+                ]
+            );
 
         } catch (ModelNotFoundException $e) {
             // رکورد پیدا نشد → 404
-            return $this->apiResponse(404, 'رکورد مورد نظر یافت نشد');
+            return $this->errorResponse($e->getMessage(), 'رکورد مورد نظر یافت نشد', 404);
 
         } catch (QueryException $e) {
             // خطاهای دیتابیس
             \Log::error('DB Error in ProfileController@update: ' . $e->getMessage());
-            return $this->apiResponse(500, 'خطایی در آپدیت پروفایل رخ داد');
+            return $this->errorResponse($e->getMessage(), 'Error', 500);
 
         } catch (Throwable $e) {
             // هر خطای غیرمنتظره
             \Log::error('Error in ProfileController@update: ' . $e->getMessage());
-            return $this->apiResponse(500, 'خطای داخلی سرور');
+            return $this->errorResponse($e->getMessage(), 'Error', 500);
         }
 
     }
@@ -128,17 +137,18 @@ class ProfileController extends BaseApiController
 
             $user = auth()->user();
             $profile = UserProfileResource::make($user->profile()->first());
-            return $this->apiResponse(200, 'success', ['profile' => $profile]);
+            return $this->successResponse($profile);
 
         } catch (ModelNotFoundException $e) {
-            return $this->apiResponse(404, $e->getMessage());
+            return $this->errorResponse($e->getMessage(), $e->getMessage(), 404);
         } catch (QueryException $e) {
             \Log::error('DB Error in ProfileController@show: ' . $e->getMessage());
-            return $this->apiResponse(500, $e->getMessage());
+            return $this->errorResponse($e->getMessage(), 'Error', 500);
 
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             \Log::error('Error in ProfileController@show: ' . $e->getMessage());
-            return $this->apiResponse(500, $e->getMessage());
+            return $this->errorResponse($e->getMessage(), 'Error', 500);
+
         }
 
     }

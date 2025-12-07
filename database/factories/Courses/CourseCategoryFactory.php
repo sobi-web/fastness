@@ -2,7 +2,10 @@
 
 namespace Database\Factories\Courses;
 
+use App\Models\Courses\CourseCategory;
+use GlassCode\PersianFaker\PersianFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Courses\CourseCategory>
@@ -16,11 +19,17 @@ class CourseCategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = PersianFaker::create();
+
         return [
-            'name' => $this->faker->unique()->words(2, true),
-            'slug' => $this->faker->unique()->slug(),
+            'name' => $faker->text()->word(),
+            'slug' => Str::slug(fake()->unique()->words(3, true)),
             'description' => $this->faker->sentence(10),
-            'parent_id' => null, // در صورت نیاز بعداً می‌تونیم setParent کنیم
+            'parent_id' => fake()->randomElements([
+                null,
+                CourseCategory::factory()
+            ]),
+            'icon' => null
         ];
     }
 

@@ -2,7 +2,9 @@
 
 namespace Database\Factories\Courses;
 
+use GlassCode\PersianFaker\PersianFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Courses\Course>
@@ -16,11 +18,16 @@ class CourseFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = PersianFaker::create();
+
+        $title= $faker->text()->word() . ' ' . $faker->text()->word() . ' ' . $faker->text()->word();
+
         return [
-            'name' => $this->faker->unique()->sentence(3),
-            'slug' => $this->faker->unique()->slug(),
-            'description' => $this->faker->paragraph(5),
-            'price' => $this->faker->randomFloat(2, 0, 2000000), // قیمت بین ۰ تا ۲میلیون تومان
+            'name' => $faker->text()->word() . ' ' . $faker->text()->word() . ' ' . $faker->text()->word(),
+            'slug' => Str::slug($title),
+            'description' => $faker->text()->paragraph() . '<br>' . $faker->text()->paragraph(),
+            'price' => fake()->randomElement([rand(1000, 999999)]),
+            'status' => rand(1,2),
         ];
     }
 }

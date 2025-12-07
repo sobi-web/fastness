@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Api\v1\Courses;
 
-use App\Http\Controllers\BaseApiController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Courses\CommentRequest;
 use App\Http\Resources\Api\V1\Courses\CourseCommentResource;
+use App\Http\Traits\Api\V1\ApiResponse;
 use App\Models\Courses\Course;
 use App\Models\Scopes\Courses\ActiveCommentScope;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Throwable;
 
-class CourseCommentController extends BaseApiController
+class CourseCommentController extends Controller
 {
+    use ApiResponse;
+
     public function index($slug, Course $course)
     {
         try {
@@ -21,20 +24,23 @@ class CourseCommentController extends BaseApiController
             $Comments_result = $course->comments;
             $comments = CourseCommentResource::collection($Comments_result);
 
-            return $this->apiResponse(200, 'کامنت های دوره ', $comments);
+            return $this->successResponse($comments);
 
         } catch (ModelNotFoundException $e) {
 
             // وقتی دوره با slug پیدا نشد
-            return $this->apiResponse(404, 'دوره مورد نظر یافت نشد.');
+            return $this->errorResponse(['error' => $e->getMessage()], 'دوره مورد نظر یافت نشد.', 404);
 
         } catch (Throwable $e) {
-            \Log::error('ShowComment Error: '.$e->getMessage());
+            \Log::error('ShowComment Error 500: ' . $e->getMessage());
 
+            return $this->errorResponse(
+                ['error' => $e->getMessage()],
+                'خطای داخلی سرور',
+                500
+            );
             // هر خطای غیرمنتظره دیگر
-            return $this->apiResponse(500, 'خطای داخلی سرور', [
-                'error' => $e->getMessage()
-            ]);
+
         }
 
     }
@@ -57,7 +63,11 @@ class CourseCommentController extends BaseApiController
 
 
             if ($user_comment) {
-                return $this->apiResponse(409, 'شما قبلا برای این دوره نظر ثبت کرده‌اید.', CourseCommentResource::make($user_comment));
+                return $this->errorResponse(
+                    CourseCommentResource::make($user_comment) ,
+                    'شما قبلا برای این دوره نظر ثبت کرده اید',
+                    409
+                );
             }
 
             // ساخت کامنت جدید
@@ -65,30 +75,26 @@ class CourseCommentController extends BaseApiController
                 'user_id' => $user_id,
                 'body' => $request->body,
                 'rating' => $request->rating,
-                'status' => 1 ,
+                'status' => 1,
             ]);
 
             // ساخت خروجی Resource
             $stored_comment = CourseCommentResource::make($comment);
 
-            return $this->apiResponse(200, 'کامنت شما با موفقیت ثبت شد', $stored_comment);
+//            return $this->apiResponse(200, 'کامنت شما با موفقیت ثبت شد', $stored_comment);
+            return $this->successResponse($stored_comment);
 
         } catch (ModelNotFoundException $e) {
 
-            // وقتی دوره با slug پیدا نشد
-            return $this->apiResponse(404, 'دوره مورد نظر یافت نشد.' ,
-            [
-                'error' => $e->getMessage()
-            ]
-            );
+
+            return $this->errorResponse($e->getMessage(), 'دوره مورد نظر یافت نشد', 404);
 
         } catch (Throwable $e) {
-            \Log::error('StoreComment Error: '.$e->getMessage());
+            \Log::error('StoreComment Error: 500  ' . $e->getMessage());
 
             // هر خطای غیرمنتظره دیگر
-            return $this->apiResponse(500, 'خطای داخلی سرور', [
-                'error' => $e->getMessage()
-            ]);
+            return $this->errorResponse($e->getMessage(), 'خطای داخلی سرور', 500);
+
         }
 
 

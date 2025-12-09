@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Courses\CategoryResource;
 use App\Http\Resources\Api\V1\Courses\IndexCourseResource;
 use App\Http\Traits\Api\V1\ApiResponse;
-use App\Models\Courses\CourseCategory;
+use App\Models\Shop\Course\CourseCategory;
 
 class CourseCategoryController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Users;
+namespace App\Models\User;
 
 use App\Enums\Api\V1\Otpstatus;
 use Illuminate\Database\Eloquent\Model;

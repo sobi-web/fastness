@@ -2,12 +2,12 @@
 
 namespace Database\Factories\Courses;
 
-use App\Models\Courses\Course;
+use App\Models\Shop\Course\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Courses\Phase>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Shop\Course\Phase>
  */
 class PhaseFactory extends Factory
 {

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models\Courses;
+namespace App\Models\Shop\Course;
 
-use App\Enums\Api\V1\CourseStatus;
 use App\Models\Scopes\Courses\ActiveScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

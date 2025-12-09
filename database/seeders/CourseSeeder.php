@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Courses\Course;
-use App\Models\Courses\CourseCategory;
-use App\Models\Courses\CourseMedia;
-use App\Models\Courses\Phase;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Shop\Course\Course;
+use App\Models\Shop\Course\CourseCategory;
+use App\Models\Shop\Course\CourseMedia;
 use Illuminate\Database\Seeder;
 
 class CourseSeeder extends Seeder

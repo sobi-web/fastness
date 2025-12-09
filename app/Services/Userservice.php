@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Users\User;
+use App\Models\User\User;
 
 class Userservice
 {

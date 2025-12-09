@@ -2,12 +2,12 @@
 
 namespace Database\Factories\Users;
 
-use App\Models\Users\User;
+use App\Models\User\User;
 use GlassCode\PersianFaker\PersianFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Users\UserProfile>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User\UserProfile>
  */
 class UserProfileFactory extends Factory
 {

@@ -18,7 +18,8 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('slug')->unique();
-            $table->decimal('price')->nullable();
+            $table->unsignedBigInteger('price')->default(0);
+            $table->unsignedBigInteger('discount_price')->default(0);
             $table->text('description')->nullable();
             $table->smallInteger('status')->default(1);
 

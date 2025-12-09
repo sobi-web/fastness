@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Courses\CommentRequest;
 use App\Http\Resources\Api\V1\Courses\CourseCommentResource;
 use App\Http\Traits\Api\V1\ApiResponse;
-use App\Models\Courses\Course;
 use App\Models\Scopes\Courses\ActiveCommentScope;
+use App\Models\Shop\Course\Course;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Throwable;
 
 class CourseCommentController extends Controller

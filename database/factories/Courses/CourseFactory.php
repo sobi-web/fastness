@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Courses\Course>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Shop\Course\Course>
  */
 class CourseFactory extends Factory
 {
@@ -19,14 +19,20 @@ class CourseFactory extends Factory
     public function definition(): array
     {
         $faker = PersianFaker::create();
+        $price = $this->faker->numberBetween(100000, 15000000);
 
         $title= $faker->text()->word() . ' ' . $faker->text()->word() . ' ' . $faker->text()->word();
-
+        $hasDiscount = $this->faker->boolean(50);
+        $discountPrice = $hasDiscount
+            ? $this->faker->numberBetween(10, $price - 10)
+            : null;
         return [
             'name' => $faker->text()->word() . ' ' . $faker->text()->word() . ' ' . $faker->text()->word(),
             'slug' => Str::slug($title),
             'description' => $faker->text()->paragraph() . '<br>' . $faker->text()->paragraph(),
-            'price' => fake()->randomElement([rand(1000, 999999)]),
+            'price' => $price,
+            'discount_price' => $discountPrice,
+
             'status' => rand(1,2),
         ];
     }

@@ -2,15 +2,13 @@
 
 namespace Database\Factories\Courses;
 
-use App\Models\Courses\Course;
-use App\Models\Users\User;
-use Database\Factories\Users\UserFactory;
-use Database\Factories\Users\UserProfileFactory;
+use App\Models\Shop\Course\Course;
+use App\Models\User\User;
 use GlassCode\PersianFaker\PersianFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Courses\CourseComment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Shop\Course\CourseComment>
  */
 class CourseCommentFactory extends Factory
 {

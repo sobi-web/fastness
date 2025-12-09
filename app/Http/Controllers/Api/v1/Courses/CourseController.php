@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Courses\indexCourseResource;
 use App\Http\Resources\Api\V1\Courses\ShowCourseResourse;
 use App\Http\Traits\Api\V1\ApiResponse;
-use App\Models\Courses\Course;
+use App\Models\Shop\Course\Course;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Throwable;
 

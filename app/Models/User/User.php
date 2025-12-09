@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Models\Users;
+namespace App\Models\User;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Courses\CourseComment;
+use App\Models\Shop\Course\CourseComment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;

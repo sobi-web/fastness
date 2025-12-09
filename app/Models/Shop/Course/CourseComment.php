@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Courses;
+namespace App\Models\Shop\Course;
 
 use App\Enums\Api\V1\CourseCommentStatus;
 use App\Models\Scopes\Courses\ActiveCommentScope;
-use App\Models\Users\User;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

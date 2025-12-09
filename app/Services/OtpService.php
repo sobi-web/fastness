@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Enums\Api\V1\Otpstatus;
 use App\Jobs\SentOtpSms;
-use App\Models\Users\Otp;
+use App\Models\User\Otp;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Str;
@@ -46,7 +46,7 @@ class OtpService
     public function tooManyRequests(string $phone, int $limit = 3, int $minutes = 1): bool
     {
         // اطمینان از اینکه مدل Otp همیشه مقداردهی شده و Builder معتبر است
-        $query = \App\Models\Users\Otp::query();
+        $query = \App\Models\User\Otp::query();
 
         // آخرین رکورد معتبر برای این شماره تلفن
         $recent = $query

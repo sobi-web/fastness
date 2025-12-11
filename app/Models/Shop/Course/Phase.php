@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Phase extends Model
 {
-    /** @use HasFactory<\Database\Factories\Courses\PhaseFactory> */
+    /** @use HasFactory<\Database\Factories\Shop\Course\PhaseFactory> */
     use HasFactory;
 
     protected $fillable = [

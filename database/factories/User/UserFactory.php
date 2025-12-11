@@ -1,10 +1,9 @@
 <?php
 
-namespace Database\Factories\Users;
+namespace Database\Factories\User;
 
 use GlassCode\PersianFaker\PersianFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User\User>

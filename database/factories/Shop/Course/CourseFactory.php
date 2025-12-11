@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Courses;
+namespace Database\Factories\Shop\Course;
 
 use GlassCode\PersianFaker\PersianFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,7 +25,7 @@ class CourseFactory extends Factory
         $hasDiscount = $this->faker->boolean(50);
         $discountPrice = $hasDiscount
             ? $this->faker->numberBetween(10, $price - 10)
-            : null;
+            : 0;
         return [
             'name' => $faker->text()->word() . ' ' . $faker->text()->word() . ' ' . $faker->text()->word(),
             'slug' => Str::slug($title),

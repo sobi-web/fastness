@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Shop\Cart;
+namespace App\Models\Shop\Coupon;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

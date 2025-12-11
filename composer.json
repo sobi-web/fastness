@@ -10,7 +10,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "ext-cassandra": "*",
         "glasscode/persian-faker": "^1.0",
         "hekmatinasser/verta": "^8.5",
         "laravel/framework": "^12.0",

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserCourse extends Model
 {
-    /** @use HasFactory<\Database\Factories\Users\UserCourseFactory> */
+    /** @use HasFactory<\Database\Factories\User\UserCourseFactory> */
     use HasFactory;
 }

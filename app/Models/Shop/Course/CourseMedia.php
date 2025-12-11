@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CourseMedia extends Model
 {
-    /** @use HasFactory<\Database\Factories\Courses\CourseMediaFactory> */
+    /** @use HasFactory<\Database\Factories\Shop\Course\CourseMediaFactory> */
     use HasFactory;
 
     protected $fillable = [

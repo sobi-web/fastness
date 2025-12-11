@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CourseCategory extends Model
 {
-    /** @use HasFactory<\Database\Factories\Courses\CourseCategoryFactory> */
+    /** @use HasFactory<\Database\Factories\Shop\Course\CourseCategoryFactory> */
     use HasFactory;
 
 

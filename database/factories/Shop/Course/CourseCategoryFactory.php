@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Courses;
+namespace Database\Factories\Shop\Course;
 
 use App\Models\Shop\Course\CourseCategory;
 use GlassCode\PersianFaker\PersianFaker;
@@ -22,14 +22,16 @@ class CourseCategoryFactory extends Factory
         $faker = PersianFaker::create();
 
         return [
-            'name' => $faker->text()->word(),
+            'name' => $faker->word(),
             'slug' => Str::slug(fake()->unique()->words(3, true)),
-            'description' => $this->faker->sentence(10),
-            'parent_id' => fake()->randomElements([
-                null,
-                CourseCategory::factory()
-            ]),
-            'icon' => null
+            'description' => fake()->sentence(10),
+
+            // مقدار parent_id گاهی null، گاهی یکی از id‌های موجود
+            'parent_id' => fake()->optional()->randomElement(
+                CourseCategory::pluck('id')->toArray()
+            ),
+
+            'icon' => null,
         ];
     }
 

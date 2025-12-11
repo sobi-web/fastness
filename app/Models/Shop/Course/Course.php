@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
-    /** @use HasFactory<\Database\Factories\Courses\CourseFactory> */
+    /** @use HasFactory<\Database\Factories\Shop\Course\CourseFactory> */
     use HasFactory;
 
     protected $fillable = [

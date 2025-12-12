@@ -22,7 +22,10 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'name',
         'phone',
+        'email',
+        'password',
     ];
 
     /**
@@ -30,21 +33,28 @@ class User extends Authenticatable
      *
      * //     * @var list<string>
      */
-//    protected $hidden = [
-//        'password',
-//        'remember_token',
-//    ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'phone_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
     /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    public function getAuthIdentifierName()
     {
-        return [
-            'phone_verified_at' => 'datetime',
-        ];
+        return 'phone'; // بجای email
     }
 
     public static function findByPhone(string $phone)
@@ -55,6 +65,10 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(UserProfile::class, 'user_id', 'id');
+    }
+    public function getNameAttribute()
+    {
+        return $this->profile?->full_name ?? 'ناشناس';
     }
 
     public function isProfileCompleted(): bool
@@ -67,10 +81,12 @@ class User extends Authenticatable
             && $profile->birth_date;
     }
 
-    public function comments() : HasMany
+    public function comments(): HasMany
     {
         return $this->hasMany(CourseComment::class, 'user_id', 'id');
     }
+
+
 
 
 }

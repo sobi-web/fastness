@@ -4,11 +4,10 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
     "content-hash": "64acf896b6a9e465f8454028c6851a82",
-=======
     "content-hash": "62b007c44ec681e5bda13e32398b5cf4",
->>>>>>> adminpanel
+
+    "content-hash": "62b007c44ec681e5bda13e32398b5cf4",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3384,6 +3383,7 @@
         },
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "name": "league/uri-interfaces",
             "version": "7.7.0",
             "source": {
@@ -3403,6 +3403,17 @@
             },
             "dist": {
                 "type": "zip",
+=======
+            "name": "league/uri-components",
+            "version": "7.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/uri-components.git",
+                "reference": "005f8693ce8c1f16f80e88a05cbf08da04c1c374"
+            },
+            "dist": {
+                "type": "zip",
+>>>>>>> adminpanel
                 "url": "https://api.github.com/repos/thephpleague/uri-components/zipball/005f8693ce8c1f16f80e88a05cbf08da04c1c374",
                 "reference": "005f8693ce8c1f16f80e88a05cbf08da04c1c374",
                 "shasum": ""
@@ -3488,6 +3499,9 @@
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
+>>>>>>> adminpanel
+=======
 >>>>>>> adminpanel
                 "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/62ccc1a0435e1c54e10ee6022df28d6c04c2946c",
                 "reference": "62ccc1a0435e1c54e10ee6022df28d6c04c2946c",
@@ -3563,7 +3577,10 @@
             ],
             "time": "2025-12-07T16:03:21+00:00"
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> adminpanel
         },
         {
             "name": "livewire/livewire",
@@ -3707,6 +3724,9 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.10.0"
             },
             "time": "2025-07-25T09:04:22+00:00"
+<<<<<<< HEAD
+>>>>>>> adminpanel
+=======
 >>>>>>> adminpanel
         },
         {
@@ -5611,6 +5631,7 @@
         },
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "name": "symfony/clock",
             "version": "v7.4.0",
             "source": {
@@ -5640,6 +5661,22 @@
                 "shasum": ""
             },
             "require": {
+=======
+            "name": "spatie/shiki-php",
+            "version": "2.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/shiki-php.git",
+                "reference": "a2e78a9ff8a1290b25d550be8fbf8285c13175c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/shiki-php/zipball/a2e78a9ff8a1290b25d550be8fbf8285c13175c5",
+                "reference": "a2e78a9ff8a1290b25d550be8fbf8285c13175c5",
+                "shasum": ""
+            },
+            "require": {
+>>>>>>> adminpanel
                 "ext-json": "*",
                 "php": "^8.0",
                 "symfony/process": "^5.4|^6.4|^7.1"
@@ -5705,6 +5742,9 @@
                 "shasum": ""
             },
             "require": {
+<<<<<<< HEAD
+>>>>>>> adminpanel
+=======
 >>>>>>> adminpanel
                 "php": ">=8.2",
                 "psr/clock": "^1.0",
@@ -6316,6 +6356,7 @@
         },
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "name": "symfony/http-foundation",
             "version": "v7.4.1",
             "source": {
@@ -6335,6 +6376,17 @@
             },
             "dist": {
                 "type": "zip",
+=======
+            "name": "symfony/html-sanitizer",
+            "version": "v7.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/html-sanitizer.git",
+                "reference": "5b0bbcc3600030b535dd0b17a0e8c56243f96d7f"
+            },
+            "dist": {
+                "type": "zip",
+>>>>>>> adminpanel
                 "url": "https://api.github.com/repos/symfony/html-sanitizer/zipball/5b0bbcc3600030b535dd0b17a0e8c56243f96d7f",
                 "reference": "5b0bbcc3600030b535dd0b17a0e8c56243f96d7f",
                 "shasum": ""
@@ -6409,6 +6461,9 @@
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
+>>>>>>> adminpanel
+=======
 >>>>>>> adminpanel
                 "url": "https://api.github.com/repos/symfony/http-foundation/zipball/bd1af1e425811d6f077db240c3a588bdb405cd27",
                 "reference": "bd1af1e425811d6f077db240c3a588bdb405cd27",

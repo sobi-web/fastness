@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Enums\Api\V1\UserProfileGender;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,10 @@ class UserProfile extends Model
         'bio' ,
         'job_title',
 
+    ];
+    protected $casts = [
+        'birth_date' => 'date',
+        'gender' => UserProfileGender::class,
     ];
 
     public function user()

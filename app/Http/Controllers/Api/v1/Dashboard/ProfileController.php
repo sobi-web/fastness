@@ -113,17 +113,7 @@ class ProfileController extends Controller
                 ]
             );
 
-        } catch (ModelNotFoundException $e) {
-            // رکورد پیدا نشد → 404
-            return $this->errorResponse($e->getMessage(), 'رکورد مورد نظر یافت نشد', 404);
-
-        } catch (QueryException $e) {
-            // خطاهای دیتابیس
-            \Log::error('DB Error in ProfileController@update: ' . $e->getMessage());
-            return $this->errorResponse($e->getMessage(), 'Error', 500);
-
-        } catch (Throwable $e) {
-            // هر خطای غیرمنتظره
+        }  catch (Throwable $e) {
             \Log::error('Error in ProfileController@update: ' . $e->getMessage());
             return $this->errorResponse($e->getMessage(), 'Error', 500);
         }
@@ -138,12 +128,6 @@ class ProfileController extends Controller
             $user = auth()->user();
             $profile = UserProfileResource::make($user->profile()->first());
             return $this->successResponse($profile);
-
-        } catch (ModelNotFoundException $e) {
-            return $this->errorResponse($e->getMessage(), $e->getMessage(), 404);
-        } catch (QueryException $e) {
-            \Log::error('DB Error in ProfileController@show: ' . $e->getMessage());
-            return $this->errorResponse($e->getMessage(), 'Error', 500);
 
         } catch (Throwable $e) {
             \Log::error('Error in ProfileController@show: ' . $e->getMessage());

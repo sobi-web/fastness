@@ -25,11 +25,6 @@ class CourseCommentController extends Controller
 
             return $this->successResponse($comments);
 
-        } catch (ModelNotFoundException $e) {
-
-            // وقتی دوره با slug پیدا نشد
-            return $this->errorResponse(['error' => $e->getMessage()], 'دوره مورد نظر یافت نشد.', 404);
-
         } catch (Throwable $e) {
             \Log::error('ShowComment Error 500: ' . $e->getMessage());
 
@@ -38,7 +33,6 @@ class CourseCommentController extends Controller
                 'خطای داخلی سرور',
                 500
             );
-            // هر خطای غیرمنتظره دیگر
 
         }
 
@@ -83,12 +77,7 @@ class CourseCommentController extends Controller
 //            return $this->apiResponse(200, 'کامنت شما با موفقیت ثبت شد', $stored_comment);
             return $this->successResponse($stored_comment);
 
-        } catch (ModelNotFoundException $e) {
-
-
-            return $this->errorResponse($e->getMessage(), 'دوره مورد نظر یافت نشد', 404);
-
-        } catch (Throwable $e) {
+        }  catch (Throwable $e) {
             \Log::error('StoreComment Error: 500  ' . $e->getMessage());
 
             // هر خطای غیرمنتظره دیگر

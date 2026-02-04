@@ -10,7 +10,8 @@ use App\Models\Shop\Course\CourseCategory;
 
 class CourseCategoryController extends Controller
 {
-  use ApiResponse ;
+    use ApiResponse;
+
     public function index(CourseCategory $category)
     {
         $categories = $category
@@ -24,7 +25,7 @@ class CourseCategoryController extends Controller
 
     public function show(CourseCategory $coursecategory)
     {
-        $categories = $coursecategory->load('parent', 'childrenRecursive' , 'courses');
+        $categories = $coursecategory->load('parent', 'childrenRecursive', 'courses');
 
         $resourse = CategoryResource::make($categories);
 
@@ -35,7 +36,7 @@ class CourseCategoryController extends Controller
 
     public function Courses(CourseCategory $coursecategory)
     {
-        $courses = $coursecategory->courses->load('comments',  'media' ,'categories');
+        $courses = $coursecategory->courses->load('comments', 'media', 'categories');
 
         $resourse = IndexCourseResource::collection($courses);
         return $this->successResponse($resourse);

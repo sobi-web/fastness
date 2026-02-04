@@ -37,7 +37,6 @@ class CourseController extends Controller
 
             \Log::error('CourseIndex Error: 500 ' . $e->getMessage());
 
-            // اگر خطای غیرمنتظره پیش بیاد
             return $this->errorResponse([
                 app()->environment('local')
                     ? $e->getMessage() // در حالت local پیام اصلی خطا رو نشون بده
@@ -61,19 +60,9 @@ class CourseController extends Controller
 
             return $this->successResponse($course);
 
-        } catch (ModelNotFoundException $e) {
-
-            // وقتی دوره با slug پیدا نشد
-//            return $this->apiResponse(404, 'دوره مورد نظر یافت نشد.');
-            return $this->errorResponse($e->getMessage(), null ,  404);
-
         } catch (Throwable $e) {
             \Log::error('CourseShow Error: ' . $e->getMessage());
 
-            // هر خطای غیرمنتظره دیگر
-//            return $this->apiResponse(500, 'خطای داخلی سرور', [
-//                'error' => $e->getMessage()
-//            ]);
             return $this->errorResponse($e->getMessage(), 'خطای داخلی سرور' , 500);
         }
     }

@@ -3,127 +3,127 @@
 namespace App\Services\Shop;
 
 use App\Models\Shop\Cart\Cart;
+use App\Models\Shop\Cart\CartItem;
 use App\Models\Shop\Course\Course;
+use App\Models\User\User;
+use Illuminate\Support\Facades\DB;
+use App\Services\Shop\CouponService;
 
 class CartService
 {
-    protected Cart $cart;
-
-    public function __construct(?Cart $cart = null)
+    public function __construct(
+        private CouponService $couponService
+    ) {}
+    public function get(User $user): Cart
     {
-        $this->cart = $cart ?? Cart::firstOrCreate([
-            'user_id' => auth()->id(),
-        ]);
+        return Cart::firstOrCreate(['user_id' => $user->id])
+            ->load('items');
     }
 
-    /* ========================
-       Core getters
-    ========================= */
-
-    public function cart(): Cart
+    public function addItem(User $user, int $courseId): Cart
     {
-        return $this->cart->load('items.course', 'coupon');
-    }
+        return DB::transaction(function () use ($user, $courseId) {
 
-    public function items()
-    {
-        return $this->cart->items;
-    }
+            $cart = $this->get($user);
 
-    /* ========================
-       Cart mutations
-    ========================= */
+            $course = Course::query()->findOrFail($courseId);
 
-    public function addCourse(Course $course): void
-    {
-        // جلوگیری از خرید مجدد دوره‌ای که قبلاً خریده شده
-        if (auth()->user()->courses()->where('course_id', $course->id)->exists()) {
-            throw ValidationException::withMessages([
-                'course' => 'You already own this course.'
+            $effectivePrice = $course->discount_price ?? $course->price;
+
+            $item = CartItem::firstOrNew([
+                'cart_id' => $cart->id,
+                'course_id' => $course->id,
             ]);
-        }
 
-        $this->cart->items()->firstOrCreate(
-            ['course_id' => $course->id],
-            ['price' => $course->price]
-        );
+            // قفل quantity برای Course
+            $item->quantity = 1;
+            $item->unit_price = $effectivePrice;
+            $item->discount_amount = 0;
+            $item->final_price = $effectivePrice;
+
+            $item->save();
+
+            $this->recalculate($cart);
+
+            return $cart->fresh(['items.course']);
+        });
+    }
+    public function updateItem(User $user, int $courseId, int $qty): Cart
+    {
+        return DB::transaction(function () use ($user, $courseId, $qty) {
+
+            $cart = $this->get($user);
+
+            $item = CartItem::where('cart_id', $cart->id)
+                ->where('course_id', $courseId)
+                ->firstOrFail();
+
+            $item->quantity = 1;
+            $item->final_price = $item->unit_price * $qty;
+            $item->save();
+
+            $this->recalculate($cart);
+
+            return $cart->fresh('items');
+        });
     }
 
-    public function removeCourse(Course $course): void
+    public function removeItem(User $user, int $courseId): Cart
     {
-        $this->cart->items()
-            ->where('course_id', $course->id)
-            ->delete();
+        return DB::transaction(function () use ($user, $courseId) {
+
+            $cart = $this->get($user);
+
+            CartItem::where('cart_id', $cart->id)
+                ->where('course_id', $courseId)
+                ->delete();
+
+            $this->recalculate($cart);
+
+            return $cart->fresh('items');
+        });
     }
 
-    public function clear(): void
+    public function clear(User $user): void
     {
-        $this->cart->items()->delete();
-        $this->cart->coupon_id = null;
-        $this->cart->save();
-    }
+        DB::transaction(function () use ($user) {
 
-    /* ========================
-       Coupon
-    ========================= */
+            $cart = $this->get($user);
 
-    public function applyCoupon(Coupon $coupon): void
-    {
-        if (! $coupon->isValidForUser(auth()->user(), $this->cart)) {
-            throw ValidationException::withMessages([
-                'coupon' => 'Coupon is not valid.'
+            $cart->items()->delete();
+
+            $cart->update([
+                'coupon_id' => null,
+                'discount_amount' => 0,
+                'total_price' => 0,
             ]);
-        }
-
-        $this->cart->coupon_id = $coupon->id;
-        $this->cart->save();
+        });
     }
 
-    public function removeCoupon(): void
+    public function applyDiscount(User $user, string $code): Cart
     {
-        $this->cart->coupon_id = null;
-        $this->cart->save();
+        $cart = $this->get($user);
+
+        // 1️⃣ اعتبارسنجی کوپن
+        $coupon = $this->couponService->validate($code, $user, $cart);
+
+        // 2️⃣ محاسبه تخفیف
+        $discount = $this->couponService->calculate($coupon, $cart);
+
+        // 3️⃣ اعمال روی cart
+        $cart->coupon_id = $coupon->id;
+        $cart->discount_amount = $discount;
+
+        $this->recalculate($cart);
+
+        return $cart->fresh('items');
     }
 
-    /* ========================
-       Calculations
-    ========================= */
-
-    public function subtotal(): int
+    public function recalculate(Cart $cart): void
     {
-        return $this->cart->items->sum('price');
-    }
+        $subtotal = $cart->items->sum('final_price');
 
-    public function discount(): int
-    {
-        if (! $this->cart->coupon) {
-            return 0;
-        }
-
-        return $this->cart->coupon->calculateDiscount($this->subtotal());
-    }
-
-    public function total(): int
-    {
-        return max(0, $this->subtotal() - $this->discount());
-    }
-
-    /* ========================
-       API-ready summary
-    ========================= */
-
-    public function summary(): array
-    {
-        return [
-            'items' => $this->items()->map(fn ($item) => [
-                'course_id' => $item->course_id,
-                'title'     => $item->course->title,
-                'price'     => $item->price,
-            ]),
-            'subtotal' => $this->subtotal(),
-            'discount' => $this->discount(),
-            'total'    => $this->total(),
-            'coupon'   => optional($this->cart->coupon)->code,
-        ];
+        $cart->total_price = max(0, $subtotal - $cart->discount_amount);
+        $cart->save();
     }
 }

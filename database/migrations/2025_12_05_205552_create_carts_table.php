@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('coupon_id')->constrained('coupons')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->unique();
+            $table->foreignId('coupon_id')->nullable()->constrained('coupons')->cascadeOnDelete();
             $table->unsignedBigInteger('total_price')->default(0);
             $table->unsignedBigInteger('discount_amount')->default(0);
 
@@ -30,6 +30,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('final_price')->default(0);
 
             $table->timestamps();
+
+            $table->unique(['cart_id', 'course_id']);
         });
     }
 

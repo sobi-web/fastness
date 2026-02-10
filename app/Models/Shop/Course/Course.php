@@ -21,11 +21,12 @@ class Course extends Model
         'name',
         'slug',
         'description',
+        'price',
+        'discount_price'
     ];
 
     /* ---------------- Relations ---------------- */
 
-    // 📁 دسته دوره
     public function categories(): BelongsToMany
     {
 
@@ -33,13 +34,13 @@ class Course extends Model
         return $this->belongsToMany(CourseCategory::class, 'course_category_course', 'course_id', 'course_category_id');
     }
 
-    // 🧩 فازهای دوره
+
     public function phases() : HasMany
     {
         return $this->hasMany(Phase::class);
     }
 
-    // 🎬 فایل‌های چندرسانه‌ای دوره
+
     public function media() : HasMany
     {
         return $this->hasMany(CourseMedia::class);
@@ -50,5 +51,6 @@ class Course extends Model
     {
         return $this->hasMany(CourseComment::class , 'course_id', 'id');
     }
+
 
 }

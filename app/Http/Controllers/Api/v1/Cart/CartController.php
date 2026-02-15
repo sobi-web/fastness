@@ -82,19 +82,25 @@ class CartController extends Controller
         ]);
 
         $cart = $this->cartService->applyDiscount(
-            $request->user(),
+            $this->user(),
             $data['code']
         );
+        if (!$cart) {
+            return $this->errorResponse(null, 'Coupon is not applied');
+        }
+        return $this->successResponse($cart, 'success');
 
-        return CartResource::make($cart);
     }
 
     public function removeCoupon(Request $request)
     {
         $cart = $this->cartService->removeCoupon(
-            $request->user()
+            $this->user()
         );
 
-        return CartResource::make($cart);
+        if (!$cart) {
+            return $this->errorResponse(null, 'Coupon is not deleted');
+        }
+        return $this->successResponse($cart, 'coupon removed');
     }
 }

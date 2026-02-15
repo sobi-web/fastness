@@ -104,11 +104,13 @@ class CartService
     {
         $cart = $this->get($user);
 
-        // 1️⃣ اعتبارسنجی کوپن
-        $coupon = $this->couponService->validate($code, $user, $cart);
+        $coupon = $this->couponService->findValid($code, $user, $cart);
 
-        // 2️⃣ محاسبه تخفیف
+
+
+
         $discount = $this->couponService->calculate($coupon, $cart);
+
 
         // 3️⃣ اعمال روی cart
         $cart->coupon_id = $coupon->id;
@@ -121,9 +123,26 @@ class CartService
 
     public function recalculate(Cart $cart): void
     {
+        $cart->load('items');
+
         $subtotal = $cart->items->sum('final_price');
 
         $cart->total_price = max(0, $subtotal - $cart->discount_amount);
         $cart->save();
+    }
+
+    public function removeCoupon(User $user ): Cart
+    {
+        $cart = $this->get($user);
+        if (!$cart->coupon_id) {
+            return $cart;
+        }
+
+        $cart->forceFill([
+            'coupon_id'       => null,
+            'discount_amount' => 0,
+        ])->save();
+
+        return $cart->refresh();
     }
 }

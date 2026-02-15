@@ -10,6 +10,19 @@ class Coupon extends Model
     /** @use HasFactory<\Database\Factories\Shop\Coupon\CouponFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'is_global',
+        'is_active',
+        'starts_at',
+        'expires_at',
+        'max_per_user',
+        'max_uses',
+        'used_count',
+        'code',
+        'discount_value' ,
+        'discount_type'
+    ];
+
     protected $casts = [
         'is_global' => 'boolean',
         'is_active' => 'boolean',
@@ -37,7 +50,7 @@ class Coupon extends Model
 
     public function isValidNow(): bool
     {
-        if (! $this->is_active) {
+        if (!$this->is_active) {
             return false;
         }
 
@@ -84,8 +97,8 @@ class Coupon extends Model
     public function discountFor(int $amount): int
     {
         return match ($this->discount_type) {
-            'percent' => (int) floor($amount * $this->discount_value / 100),
-            'amount'  => min($this->discount_value, $amount),
+            'percent' => (int)floor($amount * $this->discount_value / 100),
+            'amount' => min($this->discount_value, $amount),
         };
     }
 }

@@ -36,8 +36,9 @@ class CartController extends Controller
         if (count($cart->items) === 0) {
             return $this->successResponse(null, 'Cart is empty');
         }
+        $cartResource = CartResource::make($cart);
 
-        return $this->successResponse($cart, 'success');
+        return $this->successResponse($cartResource, 'success');
     }
 
 

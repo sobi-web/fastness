@@ -9,4 +9,6 @@ class Order extends Model
 {
     /** @use HasFactory<\Database\Factories\Shop\Orders\OrderFactory> */
     use HasFactory;
+
+
 }
